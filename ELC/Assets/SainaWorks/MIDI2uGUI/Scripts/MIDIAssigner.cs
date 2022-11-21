@@ -39,7 +39,6 @@ namespace MIDI2uGUI
     }
     public class MIDIAssigner : MonoBehaviour
     {
-        //付けたUIとMIDIを関連付けさせる
         [SerializeField] private uGUIType uGUIType;
         public MIDIAssignInfo midiAssignInfo;
         private Toggle instanceToggle;
@@ -56,7 +55,8 @@ namespace MIDI2uGUI
         {
             if (midiAssignInfo.guid == "")
             {
-                midiAssignInfo.guid = Guid.NewGuid().ToString("N");
+                //midiAssignInfo.guid = Guid.NewGuid().ToString("N");
+                Debug.LogError("this midiassigner doesnt have guid");
             }
             
             if (TryGetComponent(out Button b))
@@ -91,7 +91,7 @@ namespace MIDI2uGUI
             instanceToggle.onValueChanged.AddListener(value => OnChangeMIDIAssignToggle(value));
             instanceToggleObj.SetActive(false);
             
-            MIDIAssignManager.Instance.midiAssigners.Add(this);
+            MIDIAssignManager.Instance.midiAssignerList.Add(this);
 
             eventData = new PointerEventData(null);
         }
@@ -227,15 +227,15 @@ namespace MIDI2uGUI
 
         private void MIDI2Slider(MidiChannel midiChannel, int midiNum, float value)
         {
-            Debug.Log(value);
+            //Debug.Log(value);
             slider.normalizedValue = value;
         }
 
         private void OnDestroy()
         {
-            var tmpList = new List<MIDIAssigner>(MIDIAssignManager.Instance.midiAssigners);
+            var tmpList = new List<MIDIAssigner>(MIDIAssignManager.Instance.midiAssignerList);
             tmpList.Remove(this);
-            MIDIAssignManager.Instance.midiAssigners = tmpList;
+            MIDIAssignManager.Instance.midiAssignerList = tmpList;
         }
     }
 
