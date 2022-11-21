@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MidiJack;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace MIDI2uGUI
 {
@@ -19,13 +21,13 @@ namespace MIDI2uGUI
     [System.Serializable]
     public class MidiInfo
     {
-        public MidiJack.MidiChannel midiChannel;
+        public MidiChannel midiChannel;
         public int midiNum;
 
-        public MidiInfo(MidiChannel midiChannel, int midiNum1)
+        public MidiInfo(MidiChannel midiChannel, int midiNum)
         {
-            midiChannel = this.midiChannel;
-            midiNum = midiNum1;
+            this.midiChannel = midiChannel;
+            this.midiNum = midiNum;
         }
     }
     [System.Serializable]
@@ -39,6 +41,7 @@ namespace MIDI2uGUI
         //付けたUIとMIDIを関連付けさせる
         [SerializeField] private uGUIType uGUIType;
         public MIDIAssignInfo midiAssignInfo;
+        private Toggle instanceToggle;
         private GameObject instanceToggleObj;
         private Button button;
         private Toggle toggle;
@@ -79,9 +82,9 @@ namespace MIDI2uGUI
         {
             var obj = (GameObject)Resources.Load ("MIDIAssignToggle");
             instanceToggleObj = Instantiate(obj,transform);
-            var toggle = instanceToggleObj.GetComponent<Toggle>();
-            toggle.group = MIDIAssignManager.Instance.toggleGroup;
-            toggle.onValueChanged.AddListener(value => OnChangeMIDIAssignToggle(value));
+            instanceToggle = instanceToggleObj.GetComponent<Toggle>();
+            instanceToggle.group = MIDIAssignManager.Instance.toggleGroup;
+            instanceToggle.onValueChanged.AddListener(value => OnChangeMIDIAssignToggle(value));
             instanceToggleObj.SetActive(false);
             
             MIDIAssignManager.Instance.midiAssigners.Add(this);
@@ -96,6 +99,7 @@ namespace MIDI2uGUI
         
         public void MIDIMappingReadyModeOff()
         {
+            instanceToggle.isOn = false;
             instanceToggleObj.SetActive(false);
         }
 
@@ -110,10 +114,7 @@ namespace MIDI2uGUI
             {
                 AssignMIDI(midiChannel,midiNum);
             }
-            else
-            {
-                MIDI2uGUI(midiChannel,midiNum,value);
-            }
+            MIDI2uGUI(midiChannel,midiNum,value);
         }
         
         public void OffMIDISignal(MidiChannel midiChannel, int midiNum , float value)
@@ -122,10 +123,7 @@ namespace MIDI2uGUI
             {
                 //AssignMIDI(midiChannel,midiNum);
             }
-            else
-            {
-                MIDI2uGUI(midiChannel,midiNum,value);
-            }
+            MIDI2uGUI(midiChannel,midiNum,value);
         }
 
         private void AssignMIDI(MidiChannel midiChannel, int midiNum)
@@ -146,7 +144,6 @@ namespace MIDI2uGUI
                 }
                 
             }
-            
             if(!isAdded)
                 midiInfos.Add(new MidiInfo(midiChannel,midiNum));
         }
@@ -194,16 +191,13 @@ namespace MIDI2uGUI
         {
             if (value >= 0.5)
             {
-                toggle.isOn = true;
-            }
-            else
-            {
-                toggle.isOn = false;
+                toggle.isOn = !toggle.isOn;
             }
         }
 
         private void MIDI2Slider(MidiChannel midiChannel, int midiNum, float value)
         {
+            Debug.Log(value);
             slider.normalizedValue = value;
         }
 
