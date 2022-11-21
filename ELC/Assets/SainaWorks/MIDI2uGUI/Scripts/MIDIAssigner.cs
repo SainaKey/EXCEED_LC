@@ -138,11 +138,9 @@ namespace MIDI2uGUI
             {
                 if (midiInfo.midiChannel == midiChannel)
                 {
-                    Debug.Log(midiInfo.midiNum + "a" + midiNum);
                     if (midiInfo.midiNum == midiNum)
                     {
                         isAdded = true;
-                        Debug.Log("a");
                         return;
                     }
                 }
@@ -158,7 +156,8 @@ namespace MIDI2uGUI
         {
             if (isSelect)
             {
-                midiAssignInfo.midiInfos.RemoveAt(midiAssignInfo.midiInfos.Count - 1);
+                if(midiAssignInfo.midiInfos.Count > 0)
+                    midiAssignInfo.midiInfos.RemoveAt(midiAssignInfo.midiInfos.Count - 1);
             }
             UpdateText();
         }
@@ -169,8 +168,8 @@ namespace MIDI2uGUI
             for (int i = midiAssignInfo.midiInfos.Count - 1; i >= 0; i--)
             {
                 var midiInfo = midiAssignInfo.midiInfos[i];
-                var midiChStr = "Ch:" + midiInfo.midiChannel + ",";
-                var midiNumStr = "Num:" + midiInfo.midiNum;
+                var midiChStr = midiInfo.midiChannel + ",";
+                var midiNumStr = "Num" + midiInfo.midiNum;
                 midiInfoStr += midiChStr + midiNumStr + "/";
             }
 
