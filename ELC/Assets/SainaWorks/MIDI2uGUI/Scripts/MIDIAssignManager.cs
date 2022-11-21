@@ -90,5 +90,13 @@ public class MIDIAssignManager : MonoBehaviour
                 midiAssigner.MIDIMappingReadyModeOff();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            foreach (var midiAssigner in midiAssigners)
+            {
+                midiAssigner.DeleteMIDI();
+            }
+        }
     }
 }

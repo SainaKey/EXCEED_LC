@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using MidiJack;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -42,6 +43,7 @@ namespace MIDI2uGUI
         [SerializeField] private uGUIType uGUIType;
         public MIDIAssignInfo midiAssignInfo;
         private Toggle instanceToggle;
+        private TMP_Text instanceText;
         private GameObject instanceToggleObj;
         private Button button;
         private Toggle toggle;
@@ -82,7 +84,9 @@ namespace MIDI2uGUI
         {
             var obj = (GameObject)Resources.Load ("MIDIAssignToggle");
             instanceToggleObj = Instantiate(obj,transform);
-            instanceToggle = instanceToggleObj.GetComponent<Toggle>();
+            var midiAssignTogglePresenter = instanceToggleObj.GetComponent<MIDIAssignTogglePresenter>();
+            instanceToggle = midiAssignTogglePresenter.Toggle;
+            instanceText = midiAssignTogglePresenter.Text;
             instanceToggle.group = MIDIAssignManager.Instance.toggleGroup;
             instanceToggle.onValueChanged.AddListener(value => OnChangeMIDIAssignToggle(value));
             instanceToggleObj.SetActive(false);
@@ -146,6 +150,32 @@ namespace MIDI2uGUI
             }
             if(!isAdded)
                 midiInfos.Add(new MidiInfo(midiChannel,midiNum));
+
+            UpdateText();
+        }
+
+        public void DeleteMIDI()
+        {
+            if (isSelect)
+            {
+                midiAssignInfo.midiInfos.RemoveAt(midiAssignInfo.midiInfos.Count - 1);
+            }
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            string midiInfoStr = "";
+            for (int i = midiAssignInfo.midiInfos.Count - 1; i >= 0; i--)
+            {
+                var midiInfo = midiAssignInfo.midiInfos[i];
+                var midiChStr = "Ch:" + midiInfo.midiChannel + ",";
+                var midiNumStr = "Num:" + midiInfo.midiNum;
+                midiInfoStr += midiChStr + midiNumStr + "/";
+            }
+
+
+            instanceText.text = midiInfoStr;
         }
 
         private void MIDI2uGUI(MidiChannel midiChannel, int midiNum,float value)
