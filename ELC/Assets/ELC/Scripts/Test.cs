@@ -15,4 +15,10 @@ public class Test : MonoBehaviour
         colors = ColorIntConverter.ToColors(inputInt);
         outputInt = ColorIntConverter.ToInt(colors);
     }
+
+    public void ButtonTest()
+    {
+        Debug.Log("BUttonTest");
+    }
+
 }

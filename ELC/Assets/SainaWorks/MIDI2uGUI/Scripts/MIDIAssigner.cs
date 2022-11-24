@@ -204,10 +204,13 @@ namespace MIDI2uGUI
                 MIDI2Slider(midiChannel, midiNum, value);
         }
 
+        
         private void MIDI2Button(MidiChannel midiChannel, int midiNum, float value)
         {
             if (value >= 0.5)
             {
+                //button.OnSubmit();
+                //button.Select();
                 button.OnPointerClick(eventData);
             }
             else
@@ -215,6 +218,8 @@ namespace MIDI2uGUI
                 
             }
         }
+        
+
 
         private void MIDI2Toggle(MidiChannel midiChannel, int midiNum, float value)
         {
