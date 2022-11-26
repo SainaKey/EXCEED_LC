@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LightController : MonoBehaviour , ISetTexture
+public class LightController : MonoBehaviour , ISetShader
 {
     //RawImageをもってる
     //RawImageの色調整したり、テクスチャ調整したりするだけ
@@ -14,8 +14,8 @@ public class LightController : MonoBehaviour , ISetTexture
     
     [SerializeField] private List<RawImage> l_rawImages = new List<RawImage>();
     [SerializeField] private List<RawImage> r_rawImages = new List<RawImage>();
-    [Space]
-    [SerializeField] private Shader shader;
+    [Space] [SerializeField] private Shader shader;
+    private Material previewMaterial;
     private Material l_material;
     private Material r_material;
     private bool isSelect;
@@ -69,6 +69,9 @@ public class LightController : MonoBehaviour , ISetTexture
                 }
             });
         }
+
+        previewMaterial = new Material(shader);
+        previewRawImage.material = previewMaterial;
         
         l_material = new Material(shader);
         foreach (var lRawImage in l_rawImages)
@@ -90,6 +93,8 @@ public class LightController : MonoBehaviour , ISetTexture
 
     private void UpdateColor()
     {
+        color.a = 1.0f;
+        previewMaterial.color = color;
         color.a = l_opacity.value;
         l_material.color = color;
         color.a = r_opacity.value;
@@ -109,19 +114,13 @@ public class LightController : MonoBehaviour , ISetTexture
         controlRawImage.color = ColorIntConverter.ToColors(num)[0];
     }
 
-    public void SetTexture(RenderTexture renderTexture)
+    public void SetShader(Shader shader)
     {
         if (isSelect)
         {
-            previewRawImage.texture = renderTexture;
-            foreach (var l_RawImage in l_rawImages)
-            {
-                l_RawImage.texture = renderTexture;
-            }
-            foreach (var r_RawImage in r_rawImages)
-            {
-                r_RawImage.texture = renderTexture;
-            }
+            previewMaterial.shader = shader;
+            l_material.shader = shader;
+            r_material.shader = shader;
         }
     }
     

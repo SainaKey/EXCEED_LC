@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ISetTexture
+public interface ISetShader
 {
-    void SetTexture(RenderTexture renderTexture);
+    void SetShader(Shader shader);
 }
