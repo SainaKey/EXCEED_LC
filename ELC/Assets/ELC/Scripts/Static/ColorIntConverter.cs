@@ -8,8 +8,7 @@ public static class ColorIntConverter
     {
         string byteStr = Convert.ToString(value, 2);
         byteStr = new string(byteStr.Reverse().ToArray());
-
-        Debug.Log(byteStr);
+        
         var chunks = byteStr.Select((v, i) => new { v, i })
             .GroupBy(x => x.i / 3)
             .Select(f => f.Select(x => x.v));

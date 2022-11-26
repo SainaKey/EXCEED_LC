@@ -16,11 +16,6 @@ Shader "UI/LightColor"
         _ColorMask ("Color Mask", Float) = 15
 
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
-        
-        _phases ("Phase",Vector) = (0.0,0.0,0.0,0.0)
-        _amplitudes  ("amplitudes ",Vector) = (0.0,0.0,0.0,0.0)
-        _frequencies  ("frequencies ",Vector) = (0.0,0.0,0.0,0.0)
-        _offsets  ("offsets ",Vector) = (0.0,0.0,0.0,0.0)
     }
 
     SubShader
@@ -79,25 +74,7 @@ Shader "UI/LightColor"
                 half4  mask : TEXCOORD2;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
-
-            float TAU = 2. * 3.14159265;
-            float4 cosine_gradient(float x,  float4 phase, float4 amp, float4 freq, float4 offset)
-            {
-              phase *= TAU;
-              x *= TAU;
-
-              return float4(
-                offset.r + amp.r * 0.5 * cos(x * freq.r + phase.r) + 0.5,
-                offset.g + amp.g * 0.5 * cos(x * freq.g + phase.g) + 0.5,
-                offset.b + amp.b * 0.5 * cos(x * freq.b + phase.b) + 0.5,
-                offset.a + amp.a * 0.5 * cos(x * freq.a + phase.a) + 0.5
-              );
-            }
-
-            float3 toRGB(float4 grad)
-            {
-                return grad.rgb;
-            }
+        
         
             sampler2D _MainTex;
             fixed4 _Color;
@@ -106,11 +83,6 @@ Shader "UI/LightColor"
             float4 _MainTex_ST;
             float _UIMaskSoftnessX;
             float _UIMaskSoftnessY;
-
-            float4 _phases;
-            float4 _amplitudes;
-            float4 _frequencies;
-            float4 _offsets;
         
             v2f vert(appdata_t v)
             {
@@ -145,9 +117,7 @@ Shader "UI/LightColor"
                 #ifdef UNITY_UI_ALPHACLIP
                 clip (color.a - 0.001);
                 #endif
-
-                float4 cos_grad = cosine_gradient(IN.texcoord.x, _phases, _amplitudes, _frequencies, _offsets);
-                color = float4(toRGB(cos_grad),1.0);
+                
                 return color;
             }
         ENDCG
