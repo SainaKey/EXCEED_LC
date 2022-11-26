@@ -119,8 +119,8 @@ Shader "UI/Test"
                 clip (color.a - 0.001);
                 #endif
 
-                float uvx = lerp(0,10,IN.texcoord.x + sin(_GlobalTime));
-                color.a *= abs(sin(uvx));
+                float uvx = lerp(0,1,abs(sin(IN.texcoord.x*0.5 + _GlobalTime)));
+                color.a *=uvx;
                 return color;
             }
         ENDCG
