@@ -26,7 +26,6 @@ public static class ColorIntConverter
             var chunkIndex = 0;
             foreach (var c in chunk)
             {
-                Debug.Log(chunkIndex + ":" + c);
                 if (chunkIndex == 0)
                     b = int.Parse(c.ToString());
                 if (chunkIndex == 1)

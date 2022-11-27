@@ -151,7 +151,7 @@ MonoBehaviour:
   - {fileID: 7279241001313027160}
   l_opacity: {fileID: 5360649593850089925}
   r_opacity: {fileID: 258767941267972092}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1588549314452972974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 2852290024794740178}
   - component: {fileID: 276771777748813805}
   m_Layer: 5
-  m_Name: ColorButtons
+  m_Name: ColorToggles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1112,6 +1112,11 @@ PrefabInstance:
     - target: {fileID: 815065526410280076, guid: 2ec8da736805d6842949a0cc502edee9,
         type: 3}
       propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 815065526660191831, guid: 2ec8da736805d6842949a0cc502edee9,
+        type: 3}
+      propertyPath: m_IsOn
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 815065526660191831, guid: 2ec8da736805d6842949a0cc502edee9,
@@ -2570,7 +2575,7 @@ PrefabInstance:
     - target: {fileID: 815065526660191831, guid: 2ec8da736805d6842949a0cc502edee9,
         type: 3}
       propertyPath: m_IsOn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 815065526660191831, guid: 2ec8da736805d6842949a0cc502edee9,
         type: 3}
