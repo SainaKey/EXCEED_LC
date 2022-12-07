@@ -64,7 +64,7 @@ public static class ColorIntConverter
             byteStr += FloatToStr(b);
         }
 
-        int result = Convert.ToByte(byteStr,2);
+        int result = Convert.ToInt32(byteStr,2);
         return result;
     }
 
