@@ -119,7 +119,7 @@ Shader "ELC/Test"
                 clip (color.a - 0.001);
                 #endif
 
-                float uvx = lerp(0,1,abs(sin(IN.texcoord.x*0.5 + _GlobalTime)));
+                float uvx = lerp(1,0,abs(sin(IN.texcoord.x + _GlobalTime)));
                 color.a *=uvx;
                 return color;
             }

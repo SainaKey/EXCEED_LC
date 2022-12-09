@@ -119,8 +119,12 @@ Shader "ELC/Line"
                 clip (color.a - 0.001);
                 #endif
 
-                float uvx = lerp(0,1,abs(sin(IN.texcoord.x*0.5 + _GlobalTime)));
-                color.a *=uvx;
+                //float uvx = lerp(0,1,abs(sin(IN.texcoord.x*0.5 + _GlobalTime)));
+                float d = distance(float2(0.5,0.5),IN.texcoord);
+                d *= 30;
+                d = abs(sin(d + _GlobalTime));
+                //float a = (sin(_GlobalTime));
+                color.a *= step(0.5,d);
                 return color;
             }
         ENDCG
