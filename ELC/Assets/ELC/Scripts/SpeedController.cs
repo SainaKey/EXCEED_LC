@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,11 +23,9 @@ public class SpeedController : MonoBehaviour
         var a = (int)((speed + 5f) / 10f * 511f);
         var index = 0;
         colors = new Color[3];
-        foreach (var col in ColorIntConverter.ToColors(a))
-        {
-            colors[index] = col;
-            index++;
-        }
+        var tmpColors = ColorIntConverter.ToColors(a);
+        int dif = Mathf.Abs(tmpColors.Length - colors.Length);
+        Array.Copy(tmpColors,0,colors,dif,tmpColors.Length);
         for (int i = 0; i < colors.Length; i++)
         {
             rawImages[i].color = colors[i];
