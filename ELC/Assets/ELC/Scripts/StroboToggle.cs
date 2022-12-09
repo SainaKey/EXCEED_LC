@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleController : MonoBehaviour
+public class StroboToggle : MonoBehaviour
 {
-    [SerializeField] private int on;
-    [SerializeField] private int off;
-    [SerializeField] private RawImage targetRawImage;
     [SerializeField] private Toggle toggle;
+    [SerializeField] private RawImage stroboRawImage;
+    // Start is called before the first frame update
     void Start()
     {
         toggle.onValueChanged.AddListener(value =>
         {
             if (value)
             {
-                targetRawImage.color = ColorIntConverter.ToColors(on)[0];
+                stroboRawImage.color = Color.white;
             }
             else
             {
-                targetRawImage.color = ColorIntConverter.ToColors(off)[0];
+                stroboRawImage.color = Color.black;
             }
         });
     }
-    
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }
