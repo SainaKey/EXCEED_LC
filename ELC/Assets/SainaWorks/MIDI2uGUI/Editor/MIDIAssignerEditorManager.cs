@@ -45,6 +45,7 @@ namespace MIDI2uGUI
                     if (midiassigner.midiAssignInfo.guid == "")
                     {
                         midiassigner.midiAssignInfo.guid = Guid.NewGuid().ToString("N");
+                        PrefabUtility.RecordPrefabInstancePropertyModifications(midiassigner);
                         Debug.Log(midiassigner.midiAssignInfo.guid);
                     }
                 }
