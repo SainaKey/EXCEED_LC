@@ -6,7 +6,11 @@ using UnityEngine.UI;
 public class StroboToggle : MonoBehaviour
 {
     [SerializeField] private Toggle toggle;
+    [SerializeField] private Slider slider;
     [SerializeField] private RawImage stroboRawImage;
+    [SerializeField] private Material strobeMaterial;
+    
+    private int matId;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +25,14 @@ public class StroboToggle : MonoBehaviour
                 stroboRawImage.color = Color.black;
             }
         });
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        var shader = strobeMaterial.shader;
+        matId = shader.GetPropertyNameId(shader.FindPropertyIndex("_Speed"));
         
+        slider.onValueChanged.AddListener(value =>
+        {
+            strobeMaterial.SetFloat(matId,value);
+        });
     }
+    
 }
